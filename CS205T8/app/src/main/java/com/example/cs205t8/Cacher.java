@@ -16,10 +16,18 @@ public class Cacher {
     private LRUCache<String, Bitmap> cache;
 
 
-    public Cacher(int limit){
+    public Cacher(long limit){
         cache = new LRUCache<String, Bitmap>(limit);
         Log.i("CS205: ","cache limit " + cache.getLimit()/1024 + " KB");
 
+    }
+
+    public long getCurrSize(){
+        return cache.getCurrSize();
+    }
+
+    public long getLimit(){
+        return cache.getLimit();
     }
 
 

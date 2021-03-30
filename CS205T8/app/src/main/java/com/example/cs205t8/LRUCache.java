@@ -10,7 +10,7 @@ public class LRUCache<K, V> extends LinkedHashMap<K, V> {
     private long limit;
     private long currSize;
 
-    public LRUCache(int limit) {
+    public LRUCache(long limit) {
         super(100, 0.75f, false);
         this.limit = limit;
     }
