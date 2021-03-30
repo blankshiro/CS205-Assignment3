@@ -30,6 +30,7 @@ public class MainActivity extends AppCompatActivity {
     private Cacher cacher;
     private TextView textView;
     private Handler handler;
+    private long cacheLimit = 5L * 1024 * 1024;
 
     @Override
     // Entry point for app
@@ -39,7 +40,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         handler = new Handler();
-        cacher = new Cacher();
+        cacher = new Cacher(cacheLimit);
 
         Button b1 = findViewById(R.id.LoadButton);
         // Attach listener to button
