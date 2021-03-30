@@ -45,12 +45,10 @@ public class MainActivity extends AppCompatActivity {
         Button b1 = findViewById(R.id.LoadButton);
         // Attach listener to button
         b1.setOnClickListener(webListener);
-        Button b2 = findViewById(R.id.CacheButton);
+        Button b2 = findViewById(R.id.ClearCacheButton);
         b2.setOnClickListener(cacheListener);
-        Button b3 = findViewById(R.id.SaveButton);
+        Button b3 = findViewById(R.id.DeleteButton);
         b3.setOnClickListener(saveListener);
-        Button b4 = findViewById(R.id.TestButton);
-        b4.setOnClickListener(funListener);
 
         textView = findViewById(R.id.textView);
 
