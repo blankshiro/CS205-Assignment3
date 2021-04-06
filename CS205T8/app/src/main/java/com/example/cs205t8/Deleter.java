@@ -21,13 +21,11 @@ public class Deleter {
     private File FileDir;
     private ExecutorService executorService;
 
-    public Saver(String FileDirName){
+    public Deleter(String FileDirName){
         // create new directory in storage
         this.FileDir = new File(FileDirName);
         if (!FileDir.exists()) {
-            // Break because no such directory
             Log.i("CS205:","no such directory " + FileDir);
-            break;
         }
         // Log the information for debugging purposes
         Log.i("CS205:","created directory " + FileDir);
@@ -56,7 +54,6 @@ class DeleteTask implements Runnable{
             File file = new File(FileDir, filename);
             file.delete();
             Log.e("CS205:", "deleted " + file);
-            os.close();
         } catch (Exception e){
             Log.e("CS205:", e.getMessage());
         }

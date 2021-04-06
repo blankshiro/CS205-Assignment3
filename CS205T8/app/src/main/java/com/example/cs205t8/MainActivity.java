@@ -27,6 +27,7 @@ public class MainActivity extends AppCompatActivity {
     private ListView list;
     private ListAdapter listAdapter;
     private Saver saver;
+    private Deleter deleter;
     private Cacher cacher;
     private TextView textView;
     private Handler handler;
@@ -48,7 +49,7 @@ public class MainActivity extends AppCompatActivity {
         Button b2 = findViewById(R.id.ClearCacheButton);
         b2.setOnClickListener(cacheListener);
         Button b3 = findViewById(R.id.DeleteButton);
-        b3.setOnClickListener(saveListener);
+        b3.setOnClickListener(deleteListener);
 
         textView = findViewById(R.id.textView);
 
@@ -102,19 +103,23 @@ public class MainActivity extends AppCompatActivity {
         }
     };
 
-    public View.OnClickListener saveListener = new View.OnClickListener(){
+    public View.OnClickListener deleteListener = new View.OnClickListener(){
         @Override
         public void onClick(View view){
-            final ProgressDialog pd = ProgressDialog.show(MainActivity.this,"Saving",
-                    "Saving files to device storage...",true, false);
+            final ProgressDialog pd = ProgressDialog.show(MainActivity.this,"Deleting",
+                    "Deleting files from device storage...",true, false);
             new Thread(new Runnable() {
                 @Override
                 public void run() {
-                    saver = new Saver(getExternalFilesDir(null)+ "/allfiles");
+                    deleter = new Deleter(getExternalFilesDir(null)+ "/allfiles");
                     for (String url:URLs){
-                        saver.SaveImage(url);
+                        deleter.DeleteImage(url);
                     }
-                    sendMessageUI("Images saved");
+//                    saver = new Saver(getExternalFilesDir(null)+ "/allfiles");
+//                    for (String url:URLs){
+//                        saver.SaveImage(url);
+//                    }
+                    sendMessageUI("Images deleted");
                     pd.dismiss();
                 }
             }).start();
