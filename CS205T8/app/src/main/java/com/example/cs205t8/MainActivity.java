@@ -47,7 +47,7 @@ public class MainActivity extends AppCompatActivity {
         // Attach listener to button
         b1.setOnClickListener(webListener);
         Button b2 = findViewById(R.id.ClearCacheButton);
-        b2.setOnClickListener(cacheListener);
+        b2.setOnClickListener(clearCacheListener);
         Button b3 = findViewById(R.id.DeleteButton);
         b3.setOnClickListener(deleteListener);
 
@@ -81,20 +81,19 @@ public class MainActivity extends AppCompatActivity {
         }
     };
 
-    public View.OnClickListener cacheListener = new View.OnClickListener(){
+    public View.OnClickListener clearCacheListener = new View.OnClickListener(){
         @Override
         public void onClick(View view){
-            popUpMessage("Cache to memory");
-            final ProgressDialog pd = ProgressDialog.show(MainActivity.this,"Caching",
-                    "Caching images to memory...",true, false);
+            popUpMessage("Clear Cache");
+            final ProgressDialog pd = ProgressDialog.show(MainActivity.this,"Clearing cache",
+                    "Clearing cache ...",true, false);
             // When clicked, a new thread is started which loops through all the urls and cache whenever possible
             new Thread(new Runnable() {
                 @Override
                 public void run() {
-                    for (String url:URLs){
-                        cacher.cacheImage(url);
-                    }
-                    // After caching is done, send a message to UI TextView object
+                    cacher.clear();
+
+                    // After clearing cache is done, send a message to UI TextView object
                     sendMessageUI(cacher.getCurrSize()/1024 + " KB used out of available cache of "
                             + cacher.getLimit()/1024 + " KB" );
                     pd.dismiss();
@@ -115,10 +114,7 @@ public class MainActivity extends AppCompatActivity {
                     for (String url:URLs){
                         deleter.DeleteImage(url);
                     }
-//                    saver = new Saver(getExternalFilesDir(null)+ "/allfiles");
-//                    for (String url:URLs){
-//                        saver.SaveImage(url);
-//                    }
+
                     sendMessageUI("Images deleted");
                     pd.dismiss();
                 }
