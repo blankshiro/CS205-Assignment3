@@ -15,11 +15,11 @@ public class ListAdapter extends BaseAdapter {
     private static LayoutInflater inflater = null;
     private Loader loader;
 
-    public ListAdapter(Activity activity, String[] URLs, Cacher cacher) {
+    public ListAdapter(Activity activity, String[] URLs, Cacher cacher, DiskLoader diskLoader, Saver saver) {
         this.activity = activity;
         this.URLs = URLs;
         this.inflater = (LayoutInflater) activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        this.loader = new Loader(cacher);
+        this.loader = new Loader(cacher, diskLoader, saver);
     }
 
     @Override

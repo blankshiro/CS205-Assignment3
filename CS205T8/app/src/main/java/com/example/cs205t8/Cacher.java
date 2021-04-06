@@ -34,6 +34,7 @@ public class Cacher {
     public Bitmap get(String url){
         // return the bitmap for the image if found, if not return null
         if (cache.containsKey(url)) {
+            Log.i("CS205 - Cache:","loaded image - " + url);
             return cache.get(url);
         }
         else {
@@ -41,11 +42,11 @@ public class Cacher {
         }
     }
 
-    public void cacheImage(String url){
+    public void cacheImage(String url, Bitmap bitmap){
         // download image from web, cache it if possible
         try {
-            URL imageURL = new URL(url);
-            Bitmap bitmap = BitmapFactory.decodeStream(imageURL.openConnection().getInputStream());
+//            URL imageURL = new URL(url);
+//            Bitmap bitmap = BitmapFactory.decodeStream(imageURL.openConnection().getInputStream());
             cache.put(url, bitmap);
         } catch (Exception e) {
             Log.e("CS205:",e.getMessage());

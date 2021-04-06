@@ -15,10 +15,14 @@ public class Loader {
 
     private ExecutorService executorService;
     private Cacher cacher;
+    private DiskLoader diskLoader;
+    private Saver saver;
 
-    public Loader(Cacher cacher) {
+    public Loader(Cacher cacher, DiskLoader diskLoader, Saver saver) {
         this.executorService = Executors.newFixedThreadPool(3);
         this.cacher = cacher;
+        this.diskLoader = diskLoader;
+        this.saver = saver;
     }
 
     public void LoadText(String url, TextView textView, int position){
@@ -31,7 +35,7 @@ public class Loader {
 
     public void LoadImage(String url, ImageView imageView){
         // submit a runnable whose task is to set the image View with the correct bitmap
-        executorService.submit(new DownloadTask(url, imageView, cacher));
+        executorService.submit(new DownloadTask(url, imageView, cacher, diskLoader, saver));
     }
 
 }
@@ -41,11 +45,15 @@ class DownloadTask implements Runnable{
     private String url;
     private ImageView imageView;
     private Cacher cacher;
+    private DiskLoader diskLoader;
+    private Saver saver;
 
-    public DownloadTask(String url, ImageView imageView, Cacher cacher){
+    public DownloadTask(String url, ImageView imageView, Cacher cacher, DiskLoader diskLoader, Saver saver){
         this.url = url;
         this.imageView = imageView;
         this.cacher = cacher;
+        this.diskLoader = diskLoader;
+        this.saver = saver;
     }
 
     @Override
@@ -56,9 +64,18 @@ class DownloadTask implements Runnable{
             URL imageURL = new URL(url);
             // Try to get from cache
             Bitmap bitmap = cacher.get(url);
-            if (bitmap == null) {
+            if (bitmap == null) { // If cache is empty -> try disk
+                bitmap = BitmapFactory.decodeStream(diskLoader.getFile(url));
+                if(bitmap != null){ // If in disk -> save to cache
+                    cacher.cacheImage(url, bitmap);
+                }
+            }
+            if (bitmap == null) { // If disk is also empty -> download
                 // Download from url as bitmap
                 bitmap = BitmapFactory.decodeStream(imageURL.openConnection().getInputStream());
+                saver.SaveImage(url);
+                cacher.cacheImage(url, bitmap);
+                bitmap = BitmapFactory.decodeStream(diskLoader.getFile(url));
             }
             // Set the ImageView object with the bitmap downloaded
             imageView.setImageBitmap(bitmap);

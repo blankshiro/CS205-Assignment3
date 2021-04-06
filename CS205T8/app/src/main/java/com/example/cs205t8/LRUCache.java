@@ -28,7 +28,7 @@ public class LRUCache<K, V> extends LinkedHashMap<K, V> {
     public V put(K key, V value){
         Bitmap b = (Bitmap)value;
         currSize += b.getByteCount();
-        Log.i("CS205:","putting image: " + key);
+        Log.i("CS205 - LRU Cache:","putting image: " + key);
         return super.put(key, value);
     }
 

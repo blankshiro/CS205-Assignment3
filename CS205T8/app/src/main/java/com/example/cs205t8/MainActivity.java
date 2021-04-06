@@ -32,6 +32,7 @@ public class MainActivity extends AppCompatActivity {
     private TextView textView;
     private Handler handler;
     private long cacheLimit = 5L * 1024 * 1024;
+    private DiskLoader loader;
 
     @Override
     // Entry point for app
@@ -42,6 +43,8 @@ public class MainActivity extends AppCompatActivity {
 
         handler = new Handler();
         cacher = new Cacher(cacheLimit);
+        saver = new Saver(getExternalFilesDir(null)+ "/allfiles");
+        loader = new DiskLoader(getExternalFilesDir(null)+ "/allfiles");
 
         Button b1 = findViewById(R.id.LoadButton);
         // Attach listener to button
@@ -54,7 +57,7 @@ public class MainActivity extends AppCompatActivity {
         textView = findViewById(R.id.textView);
 
         list = findViewById(R.id.list);
-        listAdapter = new ListAdapter(MainActivity.this, URLs, cacher);
+        listAdapter = new ListAdapter(MainActivity.this, URLs, cacher, loader, saver);
 
     }
 

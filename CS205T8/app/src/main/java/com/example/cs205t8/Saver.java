@@ -7,6 +7,7 @@ import android.os.Handler;
 import android.util.Log;
 import android.widget.ImageView;
 
+import java.util.concurrent.TimeUnit;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.InputStream;
@@ -34,7 +35,18 @@ public class Saver {
     }
 
     public void SaveImage(String url){
+
         executorService.submit(new SaveTask(url, FileDir));
+        executorService.shutdown();
+        try{
+            executorService.awaitTermination(Long.MAX_VALUE, TimeUnit.NANOSECONDS);
+            Log.i("CS205 - Saver:", "completed saving - " + url);
+        }catch (Exception e){
+            Log.e("CS205:", e.getMessage());
+        }finally {
+            executorService = Executors.newFixedThreadPool(3);
+        }
+
     }
 }
 
@@ -62,6 +74,7 @@ class SaveTask implements Runnable{
             OutputStream os = new FileOutputStream(file);
             copyStream(is, os);
             os.close();
+            Log.i("CS205 - Saver:", "saved - " + filename);
         } catch (Exception e){
             Log.e("CS205:", e.getMessage());
         }
