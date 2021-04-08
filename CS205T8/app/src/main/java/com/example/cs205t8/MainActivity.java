@@ -19,15 +19,14 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import java.net.URL;
+import java.io.*;
 
 public class MainActivity extends AppCompatActivity {
 
     private ListView list;
     private ListAdapter listAdapter;
     private Saver saver;
-    private Deleter deleter;
+    //private Deleter deleter;
     private Cacher cacher;
     private TextView textView;
     private Handler handler;
@@ -110,23 +109,43 @@ public class MainActivity extends AppCompatActivity {
         }
     };
 
+//    public View.OnClickListener deleteListener = new View.OnClickListener(){
+//        @Override
+//        public void onClick(View view){
+//            final ProgressDialog pd = ProgressDialog.show(MainActivity.this,"Deleting",
+//                    "Deleting files from device storage...",true, false);
+//            new Thread(new Runnable() {
+//                @Override
+//                public void run() {
+//                    deleter = new Deleter(getExternalFilesDir(null)+ "/allfiles");
+//                    for (String url:URLs){
+//                        deleter.DeleteImage(url);
+//                    }
+//                    list.setAdapter(null);
+//                    sendMessageUI("All images deleted");
+//                    pd.dismiss();
+//                }
+//            }).start();
+//        }
+//    };
+
     public View.OnClickListener deleteListener = new View.OnClickListener(){
         @Override
         public void onClick(View view){
             final ProgressDialog pd = ProgressDialog.show(MainActivity.this,"Deleting",
                     "Deleting files from device storage...",true, false);
-            new Thread(new Runnable() {
-                @Override
-                public void run() {
-                    deleter = new Deleter(getExternalFilesDir(null)+ "/allfiles");
-                    for (String url:URLs){
-                        deleter.DeleteImage(url);
-                    }
-
-                    sendMessageUI("Images deleted");
-                    pd.dismiss();
+            File dir = new File(getExternalFilesDir(null) + "/allfiles");
+            if (dir.listFiles().length == 0) {
+                sendMessageUI("Nothing to delete");
+            } else if (dir.exists() && dir.isDirectory()) {
+                for (File f : dir.listFiles()) {
+                    f.delete();
+                    Log.e("CS205:", "deleted " + f);
                 }
-            }).start();
+                sendMessageUI("All images deleted");
+            }
+            list.setAdapter(null);
+            pd.dismiss();
         }
     };
 
