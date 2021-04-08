@@ -34,19 +34,8 @@ public class Saver {
         this.executorService = Executors.newFixedThreadPool(3);
     }
 
-    public void SaveImage(String url){
-
-        executorService.submit(new SaveTask(url, FileDir));
-        executorService.shutdown();
-        try{
-            executorService.awaitTermination(Long.MAX_VALUE, TimeUnit.NANOSECONDS);
-            Log.i("CS205 - Saver:", "completed saving - " + url);
-        }catch (Exception e){
-            Log.e("CS205:", e.getMessage());
-        }finally {
-            executorService = Executors.newFixedThreadPool(3);
-        }
-
+    public void SaveImage(String url, InputStream inputStream){
+        executorService.submit(new SaveTask(url, FileDir, inputStream));
     }
 }
 
@@ -54,10 +43,12 @@ class SaveTask implements Runnable{
 
     private String url;
     private File FileDir;
+    private InputStream inputStream;
 
-    public SaveTask(String url, File FileDir){
+    public SaveTask(String url, File FileDir, InputStream inputStream){
         this.url = url;
         this.FileDir = FileDir;
+        this.inputStream = inputStream;
     }
 
     @Override
@@ -66,11 +57,11 @@ class SaveTask implements Runnable{
         // download image from web and copy to storage device
         try {
             // Our filename is simply just a hash of the url string
+            Log.i("CS205 - Saver:", "saving - " + url);
             String filename = String.valueOf(url.hashCode());
             File file = new File(FileDir, filename);
-            URL imageURL = new URL(url);
             // We create two file streams and copy from source stream to destination stream
-            InputStream is = imageURL.openConnection().getInputStream();
+            InputStream is = inputStream;
             OutputStream os = new FileOutputStream(file);
             copyStream(is, os);
             os.close();

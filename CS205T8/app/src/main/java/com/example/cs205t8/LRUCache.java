@@ -21,6 +21,9 @@ public class LRUCache<K, V> extends LinkedHashMap<K, V> {
 
     @Override
     protected boolean removeEldestEntry(Entry<K, V> eldest) {
+        if(currSize > limit){
+            Log.i("CS205 - LRU Cache:","removing eldest image: " + eldest.getKey());
+        }
         return currSize > limit;
     }
 

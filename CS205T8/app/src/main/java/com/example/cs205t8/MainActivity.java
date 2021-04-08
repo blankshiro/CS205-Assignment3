@@ -33,6 +33,7 @@ public class MainActivity extends AppCompatActivity {
     private Handler handler;
     private long cacheLimit = 5L * 1024 * 1024;
     private DiskLoader loader;
+    private boolean initialise = true;
 
     @Override
     // Entry point for app
@@ -59,6 +60,7 @@ public class MainActivity extends AppCompatActivity {
         list = findViewById(R.id.list);
         listAdapter = new ListAdapter(MainActivity.this, URLs, cacher, loader, saver);
 
+
     }
 
     public void popUpMessage(String text){
@@ -80,7 +82,10 @@ public class MainActivity extends AppCompatActivity {
         public void onClick(View view){
             popUpMessage("Download from Web");
             // When button is clicked, attach a ListAdapter to a ListView object
-            list.setAdapter(listAdapter);
+            if(initialise){
+                list.setAdapter(listAdapter);
+                initialise = false;
+            }
         }
     };
 

@@ -11,6 +11,8 @@ import java.net.URL;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+import java.io.*;
+
 public class Loader {
 
     private ExecutorService executorService;
@@ -72,10 +74,11 @@ class DownloadTask implements Runnable{
             }
             if (bitmap == null) { // If disk is also empty -> download
                 // Download from url as bitmap
-                bitmap = BitmapFactory.decodeStream(imageURL.openConnection().getInputStream());
-                saver.SaveImage(url);
+                InputStream inputStream = imageURL.openConnection().getInputStream();
+                bitmap = BitmapFactory.decodeStream(inputStream);
+                saver.SaveImage(url, inputStream);
                 cacher.cacheImage(url, bitmap);
-                bitmap = BitmapFactory.decodeStream(diskLoader.getFile(url));
+//                bitmap = BitmapFactory.decodeStream(diskLoader.getFile(url));
             }
             // Set the ImageView object with the bitmap downloaded
             imageView.setImageBitmap(bitmap);
