@@ -26,10 +26,10 @@ public class DiskLoader {
         Log.i("CS205:","creating diskLoader");
         // create new directory in storage
         this.FileDir = new File(FileDirName);
-        if (!FileDir.exists()) { // Should not enter here
-            // Create new directory
-            FileDir.mkdirs();
-        }
+//        if (!FileDir.exists()) { // Should not enter here
+//            // Create new directory
+//            FileDir.mkdirs();
+//        }
         // Log the information for debugging purposes
         Log.i("CS205:","disk load created directory " + FileDir);
 //        this.executorService = Executors.newFixedThreadPool(3);

@@ -31,7 +31,7 @@ public class Saver {
         }
         // Log the information for debugging purposes
         Log.i("CS205:","created directory " + FileDir);
-        this.executorService = Executors.newFixedThreadPool(3);
+        this.executorService = Executors.newFixedThreadPool(5);
     }
 
     public void SaveImage(String url, InputStream inputStream){

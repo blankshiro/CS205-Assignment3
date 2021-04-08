@@ -130,14 +130,6 @@ public class MainActivity extends AppCompatActivity {
         }
     };
 
-    public View.OnClickListener funListener = new View.OnClickListener(){
-        @Override
-        public void onClick(View view) {
-            popUpMessage("testing");
-            cacher.clear();
-        }
-    };
-
     @Override
     public void onDestroy(){
         list.setAdapter(null);
