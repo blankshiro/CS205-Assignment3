@@ -24,7 +24,7 @@ public class Loader {
     private Saver saver;
 
     public Loader(Cacher cacher, DiskLoader diskLoader, Saver saver) {
-        this.executorService = Executors.newFixedThreadPool(5);
+        this.executorService = Executors.newFixedThreadPool(3);
         this.cacher = cacher;
         this.diskLoader = diskLoader;
         this.saver = saver;
@@ -59,21 +59,6 @@ class DownloadTask implements Runnable{
         this.cacher = cacher;
         this.diskLoader = diskLoader;
         this.saver = saver;
-    }
-
-    public Bitmap getBitmapFromURL(String src) {
-        try {
-            java.net.URL url = new java.net.URL(src);
-            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-            connection.setDoInput(true);
-            connection.connect();
-            InputStream input = connection.getInputStream();
-            Bitmap myBitmap = BitmapFactory.decodeStream(input);
-            return myBitmap;
-        } catch (IOException e) {
-            e.printStackTrace();
-            return null;
-        }
     }
 
     @Override
