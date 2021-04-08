@@ -31,21 +31,21 @@ public class Saver {
         }
         // Log the information for debugging purposes
         Log.i("CS205:","created directory " + FileDir);
-        this.executorService = Executors.newFixedThreadPool(3);
+        this.executorService = Executors.newFixedThreadPool(5);
     }
 
     public void SaveImage(String url){
 
         executorService.submit(new SaveTask(url, FileDir));
-        executorService.shutdown();
-        try{
-            executorService.awaitTermination(Long.MAX_VALUE, TimeUnit.NANOSECONDS);
-            Log.i("CS205 - Saver:", "completed saving - " + url);
-        }catch (Exception e){
-            Log.e("CS205:", e.getMessage());
-        }finally {
-            executorService = Executors.newFixedThreadPool(3);
-        }
+        //executorService.shutdown();
+//        try{
+//            executorService.awaitTermination(Long.MAX_VALUE, TimeUnit.NANOSECONDS);
+//            Log.i("CS205 - Saver:", "completed saving - " + url);
+//        }catch (Exception e){
+//            Log.e("CS205:", e.getMessage());
+//        }finally {
+//            executorService = Executors.newFixedThreadPool(5);
+//        }
 
     }
 }

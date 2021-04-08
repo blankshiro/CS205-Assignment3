@@ -46,12 +46,12 @@ public class ListAdapter extends BaseAdapter {
         }
 
         // Set the text value in the item View
-        TextView textView = view.findViewById(R.id.text);
+        TextView textView = (TextView)view.findViewById(R.id.text);
         // LoadText method dictates what text to show
         loader.LoadText(URLs[position], textView, position);
 
         // set the bitmap value in the image View
-        ImageView image = view.findViewById(R.id.image);
+        ImageView image = (ImageView)view.findViewById(R.id.image);
         // LoadImage method detects what image to load
         loader.LoadImage(URLs[position], image);
         return view;

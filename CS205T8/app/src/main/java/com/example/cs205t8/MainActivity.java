@@ -81,6 +81,7 @@ public class MainActivity extends AppCompatActivity {
             popUpMessage("Download from Web");
             // When button is clicked, attach a ListAdapter to a ListView object
             list.setAdapter(listAdapter);
+            listAdapter.notifyDataSetChanged();
         }
     };
 
@@ -122,14 +123,6 @@ public class MainActivity extends AppCompatActivity {
                     pd.dismiss();
                 }
             }).start();
-        }
-    };
-
-    public View.OnClickListener funListener = new View.OnClickListener(){
-        @Override
-        public void onClick(View view) {
-            popUpMessage("testing");
-            cacher.clear();
         }
     };
 

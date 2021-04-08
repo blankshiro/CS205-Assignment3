@@ -7,6 +7,9 @@ import android.util.Log;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -19,7 +22,7 @@ public class Loader {
     private Saver saver;
 
     public Loader(Cacher cacher, DiskLoader diskLoader, Saver saver) {
-        this.executorService = Executors.newFixedThreadPool(3);
+        this.executorService = Executors.newFixedThreadPool(5);
         this.cacher = cacher;
         this.diskLoader = diskLoader;
         this.saver = saver;
@@ -48,7 +51,7 @@ class DownloadTask implements Runnable{
     private DiskLoader diskLoader;
     private Saver saver;
 
-    public DownloadTask(String url, ImageView imageView, Cacher cacher, DiskLoader diskLoader, Saver saver){
+    public DownloadTask (String url, ImageView imageView, Cacher cacher, DiskLoader diskLoader, Saver saver) {
         this.url = url;
         this.imageView = imageView;
         this.cacher = cacher;
@@ -56,11 +59,31 @@ class DownloadTask implements Runnable{
         this.saver = saver;
     }
 
+    public Bitmap getBitmapFromURL(String src) {
+        try {
+            java.net.URL url = new java.net.URL(src);
+            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+            connection.setDoInput(true);
+            connection.connect();
+            InputStream input = connection.getInputStream();
+            Bitmap myBitmap = BitmapFactory.decodeStream(input);
+            return myBitmap;
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
     @Override
     public void run(){
-        // get the bitmap of image from cache if possible
-        // if not, download from web
+        /**
+         * Images along with their captions should be loaded via the List View
+         * o	First check if image is stored in cache. If so, retrieve it and display it on screen
+         * o	If image is not in cache, retrieve it from disk, and update your cache via LRU policy
+         * o	If image file not in disk, download it from web, save it on disk, and update the cache
+         */
         try {
+            // Get the image URL
             URL imageURL = new URL(url);
             // Try to get from cache
             Bitmap bitmap = cacher.get(url);
@@ -72,7 +95,8 @@ class DownloadTask implements Runnable{
             }
             if (bitmap == null) { // If disk is also empty -> download
                 // Download from url as bitmap
-                bitmap = BitmapFactory.decodeStream(imageURL.openConnection().getInputStream());
+                //bitmap = BitmapFactory.decodeStream(imageURL.openConnection().getInputStream());
+                bitmap = getBitmapFromURL(url);
                 saver.SaveImage(url);
                 cacher.cacheImage(url, bitmap);
                 bitmap = BitmapFactory.decodeStream(diskLoader.getFile(url));
