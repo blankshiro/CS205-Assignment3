@@ -26,7 +26,6 @@ public class MainActivity extends AppCompatActivity {
     private ListView list;
     private ListAdapter listAdapter;
     private Saver saver;
-    //private Deleter deleter;
     private Cacher cacher;
     private TextView textView;
     private Handler handler;
@@ -46,20 +45,23 @@ public class MainActivity extends AppCompatActivity {
         saver = new Saver(getExternalFilesDir(null)+ "/allfiles");
         loader = new DiskLoader(getExternalFilesDir(null)+ "/allfiles");
 
+        // The load button
         Button b1 = findViewById(R.id.LoadButton);
-        // Attach listener to button
+        // Attach listener to load button
         b1.setOnClickListener(webListener);
+        // The clear cache button
         Button b2 = findViewById(R.id.ClearCacheButton);
+        // Attach listener to clear cache button
         b2.setOnClickListener(clearCacheListener);
+        // The delete button
         Button b3 = findViewById(R.id.DeleteButton);
+        // Attach listener to delete button
         b3.setOnClickListener(deleteListener);
 
         textView = findViewById(R.id.textView);
 
         list = findViewById(R.id.list);
         listAdapter = new ListAdapter(MainActivity.this, URLs, cacher, loader, saver);
-
-
     }
 
     public void popUpMessage(String text){
@@ -109,26 +111,6 @@ public class MainActivity extends AppCompatActivity {
         }
     };
 
-//    public View.OnClickListener deleteListener = new View.OnClickListener(){
-//        @Override
-//        public void onClick(View view){
-//            final ProgressDialog pd = ProgressDialog.show(MainActivity.this,"Deleting",
-//                    "Deleting files from device storage...",true, false);
-//            new Thread(new Runnable() {
-//                @Override
-//                public void run() {
-//                    deleter = new Deleter(getExternalFilesDir(null)+ "/allfiles");
-//                    for (String url:URLs){
-//                        deleter.DeleteImage(url);
-//                    }
-//                    list.setAdapter(null);
-//                    sendMessageUI("All images deleted");
-//                    pd.dismiss();
-//                }
-//            }).start();
-//        }
-//    };
-
     public View.OnClickListener deleteListener = new View.OnClickListener(){
         @Override
         public void onClick(View view){
@@ -144,7 +126,7 @@ public class MainActivity extends AppCompatActivity {
                 }
                 sendMessageUI("All images deleted");
             }
-            list.setAdapter(null);
+            //list.setAdapter(null);
             pd.dismiss();
         }
     };

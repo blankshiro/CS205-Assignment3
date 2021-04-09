@@ -22,6 +22,11 @@ public class Saver {
     private File FileDir;
     private ExecutorService executorService;
 
+    /**
+     * Constructor for Saver.
+     *
+     * @param FileDirName The file directory path.
+     */
     public Saver(String FileDirName){
         // create new directory in storage
         this.FileDir = new File(FileDirName);
@@ -45,6 +50,13 @@ class SaveTask implements Runnable{
     private File FileDir;
     private InputStream inputStream;
 
+    /**
+     * Constructor for SaveTask.
+     *
+     * @param url The URL of the image.
+     * @param FileDir The file directory path.
+     * @param inputStream The InputStream of the file.
+     */
     public SaveTask(String url, File FileDir, InputStream inputStream){
         this.url = url;
         this.FileDir = FileDir;
@@ -71,6 +83,12 @@ class SaveTask implements Runnable{
         }
     }
 
+    /**
+     * This method copies the input file stream to the output file stream.
+     *
+     * @param is The InputStream file.
+     * @param os The OutputStream file.
+     */
     public void copyStream(InputStream is, OutputStream os) {
         final int buffer_size=1024;
         try {

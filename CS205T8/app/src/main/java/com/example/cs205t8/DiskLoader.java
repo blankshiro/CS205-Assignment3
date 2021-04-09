@@ -22,6 +22,11 @@ public class DiskLoader {
     private File FileDir;
 //    private ExecutorService executorService;
 
+    /**
+     * Constructor for DiskLoader.
+     *
+     * @param FileDirName The file directory path.
+     */
     public DiskLoader(String FileDirName) {
         Log.i("CS205:", "creating diskLoader");
         // create new directory in storage
@@ -36,6 +41,12 @@ public class DiskLoader {
 //        this.executorService = Executors.newFixedThreadPool(3);
     }
 
+    /**
+     * This method gets the image file from the disk.
+     *
+     * @param url The URL of the image.
+     * @return The InputStream of the image file.
+     */
     public InputStream getFile(String url) {
         try {
             // Our filename is simply just a hash of the url string

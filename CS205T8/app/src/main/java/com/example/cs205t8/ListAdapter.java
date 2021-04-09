@@ -15,6 +15,15 @@ public class ListAdapter extends BaseAdapter {
     private static LayoutInflater inflater = null;
     private Loader loader;
 
+    /**
+     * Constructor for ListAdapter.
+     *
+     * @param activity The current Actvity.
+     * @param URLs The string array of URLs.
+     * @param cacher The current Cacher.
+     * @param diskLoader The current DiskLoader.
+     * @param saver The current Saver.
+     */
     public ListAdapter(Activity activity, String[] URLs, Cacher cacher, DiskLoader diskLoader, Saver saver) {
         this.activity = activity;
         this.URLs = URLs;

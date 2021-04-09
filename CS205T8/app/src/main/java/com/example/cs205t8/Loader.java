@@ -23,6 +23,13 @@ public class Loader {
     private DiskLoader diskLoader;
     private Saver saver;
 
+    /**
+     * Constructor for Loader.
+     *
+     * @param cacher The current Cacher.
+     * @param diskLoader The current DiskLoader.
+     * @param saver The current Saver.
+     */
     public Loader(Cacher cacher, DiskLoader diskLoader, Saver saver) {
         this.executorService = Executors.newFixedThreadPool(3);
         this.cacher = cacher;
@@ -53,6 +60,15 @@ class DownloadTask implements Runnable{
     private DiskLoader diskLoader;
     private Saver saver;
 
+    /**
+     * Constructor for DownloadTask.
+     *
+     * @param url The URL of the image to download.
+     * @param imageView The current ImageView.
+     * @param cacher The current Cacher.
+     * @param diskLoader The current DiskLoader.
+     * @param saver The current Saver.
+     */
     public DownloadTask (String url, ImageView imageView, Cacher cacher, DiskLoader diskLoader, Saver saver) {
         this.url = url;
         this.imageView = imageView;
