@@ -9,11 +9,14 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.util.logging.Handler;
+
 public class ListAdapter extends BaseAdapter {
-    private Activity activity;
+    private MainActivity activity;
     private String[] URLs;
     private static LayoutInflater inflater = null;
     private Loader loader;
+    private Cacher cacher;
 
     /**
      * Constructor for ListAdapter.
@@ -24,11 +27,13 @@ public class ListAdapter extends BaseAdapter {
      * @param diskLoader The current DiskLoader.
      * @param saver The current Saver.
      */
-    public ListAdapter(Activity activity, String[] URLs, Cacher cacher, DiskLoader diskLoader, Saver saver) {
+    public ListAdapter(MainActivity activity, String[] URLs, Cacher cacher,
+                       DiskLoader diskLoader, Saver saver) {
         this.activity = activity;
         this.URLs = URLs;
         this.inflater = (LayoutInflater) activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         this.loader = new Loader(cacher, diskLoader, saver);
+        this.cacher = cacher;
     }
 
     @Override
@@ -63,6 +68,10 @@ public class ListAdapter extends BaseAdapter {
         ImageView image = (ImageView)view.findViewById(R.id.image);
         // LoadImage method detects what image to load
         loader.LoadImage(URLs[position], image);
+
+        activity.sendMessageUI(cacher.getCurrSize()/1024 + " KB used out of available cache of "
+                + cacher.getLimit()/1024 + " KB" );;
+
         return view;
     }
 }

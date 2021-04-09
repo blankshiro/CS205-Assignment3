@@ -62,6 +62,7 @@ public class MainActivity extends AppCompatActivity {
 
         list = findViewById(R.id.list);
         listAdapter = new ListAdapter(MainActivity.this, URLs, cacher, loader, saver);
+
     }
 
     public void popUpMessage(String text){

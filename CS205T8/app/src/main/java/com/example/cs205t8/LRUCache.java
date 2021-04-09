@@ -36,10 +36,13 @@ public class LRUCache<K, V> extends LinkedHashMap<K, V> {
 
     @Override
     protected boolean removeEldestEntry(Entry<K, V> eldest) {
-        if(currSize > limit){
-            Log.i("CS205 - LRU Cache:","removing eldest image: " + eldest.getKey());
+        long priorCurrSize = currSize;
+        if(priorCurrSize > limit){
+            Bitmap b = (Bitmap)eldest.getValue();
+            currSize -= b.getByteCount();
+            Log.i("CS205 - LRU Cache(" + currSize/1024 +"):","removing eldest image: " + eldest.getKey() + " size: " + b.getByteCount()/1024);
         }
-        return currSize > limit;
+        return priorCurrSize > limit;
     }
 
     /**
@@ -52,7 +55,22 @@ public class LRUCache<K, V> extends LinkedHashMap<K, V> {
     public V put(K key, V value){
         Bitmap b = (Bitmap)value;
         currSize += b.getByteCount();
-        Log.i("CS205 - LRU Cache:","putting image: " + key);
+
+        boolean noFit = currSize > limit;
+        Log.i("CS205 - LRU Cache(" + currSize/1024 +"):","noFit " + currSize + " limit: " + limit);
+
+        while(noFit){
+            Entry eldest = (Entry) this.entrySet().toArray()[this.size() -1];
+            Bitmap eldest_b = (Bitmap)eldest.getValue();
+            if(currSize - eldest_b.getByteCount() < limit){
+                noFit = false;
+                break;
+            }
+            this.remove(eldest.getKey());
+            currSize -= eldest_b.getByteCount();
+            Log.i("CS205 - LRU Cache(" + currSize/1024 +"):","noFit - removing eldest image: " + eldest.getKey() + " size: " + eldest_b.getByteCount()/1024);
+        }
+        Log.i("CS205 - LRU Cache(" + currSize/1024 +"):","putting image: " + key + " size: " + b.getByteCount()/1024);
         return super.put(key, value);
     }
 

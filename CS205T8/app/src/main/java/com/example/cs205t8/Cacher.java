@@ -10,6 +10,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.*;
+import java.util.Map.*;
 
 public class Cacher {
 
@@ -21,7 +22,7 @@ public class Cacher {
      * @param limit The cache limit.
      */
     public Cacher(long limit){
-        cache = new LRUCache<String, Bitmap>(limit);
+        this.cache = new LRUCache<String, Bitmap>(limit);
         Log.i("CS205: ","cache limit " + cache.getLimit()/1024 + " KB");
 
     }
