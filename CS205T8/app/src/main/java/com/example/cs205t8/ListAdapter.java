@@ -68,6 +68,11 @@ public class ListAdapter extends BaseAdapter {
         ImageView image = (ImageView)view.findViewById(R.id.image);
         // LoadImage method detects what image to load
         loader.LoadImage(URLs[position], image);
+        try{
+            Thread.sleep(10);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
 
         activity.sendMessageUI(cacher.getCurrSize()/1024 + " KB used out of available cache of "
                 + cacher.getLimit()/1024 + " KB" );;
