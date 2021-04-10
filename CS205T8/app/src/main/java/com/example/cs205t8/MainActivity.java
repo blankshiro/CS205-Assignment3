@@ -41,7 +41,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         handler = new Handler();
-        cacher = new Cacher(cacheLimit);
+        cacher = new Cacher(this, cacheLimit);
         saver = new Saver(getExternalFilesDir(null)+ "/allfiles");
         loader = new DiskLoader(getExternalFilesDir(null)+ "/allfiles");
 

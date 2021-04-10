@@ -69,8 +69,8 @@ public class ListAdapter extends BaseAdapter {
         // LoadImage method detects what image to load
         loader.LoadImage(URLs[position], image);
 
-        activity.sendMessageUI(cacher.getCurrSize()/1024 + " KB used out of available cache of "
-                + cacher.getLimit()/1024 + " KB" );;
+//        activity.sendMessageUI(cacher.getCurrSize()/1024 + " KB used out of available cache of "
+//                + cacher.getLimit()/1024 + " KB" );
 
         return view;
     }

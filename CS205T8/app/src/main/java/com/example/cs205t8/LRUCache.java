@@ -7,6 +7,7 @@ import android.util.Log;
 import java.util.LinkedHashMap;
 
 public class LRUCache<K, V> extends LinkedHashMap<K, V> {
+    private MainActivity activity;
     private long limit;
     private long currSize;
 
@@ -15,8 +16,9 @@ public class LRUCache<K, V> extends LinkedHashMap<K, V> {
      * 
      * @param limit The limit of the LRUCache.
      */
-    public LRUCache(long limit) {
+    public LRUCache(MainActivity activity, long limit) {
         super(100, 0.75f, false);
+        this.activity = activity;
         this.limit = limit;
     }
 
@@ -41,6 +43,8 @@ public class LRUCache<K, V> extends LinkedHashMap<K, V> {
             Bitmap b = (Bitmap)eldest.getValue();
             currSize -= b.getByteCount();
             Log.i("CS205 - LRU Cache(" + currSize/1024 +"):","removing eldest image: " + eldest.getKey() + " size: " + b.getByteCount()/1024);
+            activity.sendMessageUI(currSize / 1024 + " KB used out of available cache of "
+                    + limit / 1024 + " KB");
         }
         return priorCurrSize > limit;
     }
@@ -68,9 +72,10 @@ public class LRUCache<K, V> extends LinkedHashMap<K, V> {
             }
             this.remove(eldest.getKey());
             currSize -= eldest_b.getByteCount();
-            Log.i("CS205 - LRU Cache(" + currSize/1024 +"):","noFit - removing eldest image: " + eldest.getKey() + " size: " + eldest_b.getByteCount()/1024);
         }
         Log.i("CS205 - LRU Cache(" + currSize/1024 +"):","putting image: " + key + " size: " + b.getByteCount()/1024);
+        activity.sendMessageUI(currSize / 1024 + " KB used out of available cache of "
+                + limit / 1024 + " KB");
         return super.put(key, value);
     }
 
