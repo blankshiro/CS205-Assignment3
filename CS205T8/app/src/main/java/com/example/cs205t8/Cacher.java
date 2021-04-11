@@ -15,14 +15,15 @@ import java.util.Map.*;
 public class Cacher {
 
     private LRUCache<String, Bitmap> cache;
+    private MainActivity activity;
 
     /**
      * Constructor for Cacher.
      * 
      * @param limit The cache limit.
      */
-    public Cacher(long limit){
-        this.cache = new LRUCache<String, Bitmap>(limit);
+    public Cacher(MainActivity activity, long limit) {
+        this.cache = new LRUCache<String, Bitmap>(activity, limit);
         Log.i("CS205: ","cache limit " + cache.getLimit()/1024 + " KB");
 
     }
