@@ -13,7 +13,8 @@ public class LRUCache<K, V> extends LinkedHashMap<K, V> {
 
     /**
      * Constructor for the LRUCache.
-     * 
+     *
+     * @param activity The current MainActivity.
      * @param limit The limit of the LRUCache.
      */
     public LRUCache(MainActivity activity, long limit) {

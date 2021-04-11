@@ -45,7 +45,7 @@ public class DiskLoader {
      * This method gets the image file from the disk.
      *
      * @param url The URL of the image.
-     * @return The InputStream of the image file.
+     * @return The File of the image.
      */
     public File getFile(String url) {
         try {

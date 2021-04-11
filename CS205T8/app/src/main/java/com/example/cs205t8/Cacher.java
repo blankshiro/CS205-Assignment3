@@ -19,7 +19,8 @@ public class Cacher {
 
     /**
      * Constructor for Cacher.
-     * 
+     *
+     * @param activity The current MainActivity.
      * @param limit The cache limit.
      */
     public Cacher(MainActivity activity, long limit) {
