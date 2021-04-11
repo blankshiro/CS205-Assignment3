@@ -76,6 +76,7 @@ public class Cacher {
 //            URL imageURL = new URL(url);
 //            Bitmap bitmap = BitmapFactory.decodeStream(imageURL.openConnection().getInputStream());
             cache.put(url, bitmap);
+            this.get(url);
         } catch (Exception e) {
             Log.e("CS205:",e.getMessage());
         }

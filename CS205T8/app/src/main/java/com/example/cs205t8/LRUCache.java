@@ -17,7 +17,7 @@ public class LRUCache<K, V> extends LinkedHashMap<K, V> {
      * @param limit The limit of the LRUCache.
      */
     public LRUCache(MainActivity activity, long limit) {
-        super(100, 0.75f, false);
+        super(100, 0.75f, true);
         this.activity = activity;
         this.limit = limit;
     }
@@ -73,12 +73,13 @@ public class LRUCache<K, V> extends LinkedHashMap<K, V> {
         Log.i("CS205 - LRU Cache(" + currSize/1024 +"):","noFit check: " + currSize + " limit: " + limit);
 
         while(noFit && this.size() != 0){   // While the cache limit is still exceeded, keep removing the eldest entry
-            Entry eldest = (Entry) this.entrySet().toArray()[this.size() -1];   // Get the eldest entry
-            Bitmap eldest_b = (Bitmap)eldest.getValue();
             if(currSize <= limit){
                 noFit = false;
                 break;
             }
+            Entry eldest = (Entry) this.entrySet().toArray()[0];   // Get the eldest entry
+            Bitmap eldest_b = (Bitmap)eldest.getValue();
+            Log.i("CS205 - LRU Cache:","removing image: " + eldest.getKey() + " size: " + b.getByteCount()/1024);
             this.remove(eldest.getKey());
             currSize -= eldest_b.getByteCount();
         }
