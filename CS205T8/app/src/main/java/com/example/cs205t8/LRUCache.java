@@ -36,6 +36,15 @@ public class LRUCache<K, V> extends LinkedHashMap<K, V> {
      */
     public long getCurrSize() { return currSize; }
 
+
+    /**
+     * This method is automatically called after the put method.
+     * Checks if the addition of the current image exceeds the conditon.
+     * If it returns true, the eldest entry will be removed
+     *
+     * @param eldest
+     * @return
+     */
     @Override
     protected boolean removeEldestEntry(Entry<K, V> eldest) {
         long priorCurrSize = currSize;
@@ -60,13 +69,13 @@ public class LRUCache<K, V> extends LinkedHashMap<K, V> {
         Bitmap b = (Bitmap)value;
         currSize += b.getByteCount();
 
-        boolean noFit = currSize > limit;
-        Log.i("CS205 - LRU Cache(" + currSize/1024 +"):","noFit " + currSize + " limit: " + limit);
+        boolean noFit = currSize > limit; // Check if addition of new image will exceed the cache limit
+        Log.i("CS205 - LRU Cache(" + currSize/1024 +"):","noFit check: " + currSize + " limit: " + limit);
 
-        while(noFit){
-            Entry eldest = (Entry) this.entrySet().toArray()[this.size() -1];
+        while(noFit && this.size() != 0){   // While the cache limit is still exceeded, keep removing the eldest entry
+            Entry eldest = (Entry) this.entrySet().toArray()[this.size() -1];   // Get the eldest entry
             Bitmap eldest_b = (Bitmap)eldest.getValue();
-            if(currSize - eldest_b.getByteCount() < limit){
+            if(currSize <= limit){
                 noFit = false;
                 break;
             }
