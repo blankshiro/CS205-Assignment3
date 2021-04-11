@@ -72,8 +72,9 @@ class SaveTask implements Runnable{
             Log.i("CS205 - Saver:", "saving - " + url);
             String filename = String.valueOf(url.hashCode());
             File file = new File(FileDir, filename);
+            URL imageURL = new URL(url);
             // We create two file streams and copy from source stream to destination stream
-            InputStream is = inputStream;
+            InputStream is = imageURL.openConnection().getInputStream();
             OutputStream os = new FileOutputStream(file);
             copyStream(is, os);
             os.close();

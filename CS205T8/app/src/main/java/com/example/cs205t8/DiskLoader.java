@@ -47,17 +47,17 @@ public class DiskLoader {
      * @param url The URL of the image.
      * @return The InputStream of the image file.
      */
-    public InputStream getFile(String url) {
+    public File getFile(String url) {
         try {
             // Our filename is simply just a hash of the url string
             String filename = String.valueOf(url.hashCode());
+            if(new File(FileDir, filename).exists() == false){
+                return null;
+            }
             File file = new File(FileDir, filename);
-//            URL imageURL = new URL(url);
-//            // We create two file streams and copy from source stream to destination stream
-//            InputStream is = imageURL.openConnection().getInputStream();
-            InputStream is = new FileInputStream(file);
-            Log.i("CS205 - Disk Loader:", "found a file - " + url);
-            return is;
+
+            Log.i("CS205 - Disk Loader:", "found a file - " + file);
+            return file;
         } catch (Exception e) {
             Log.e("CS205 - Disk Loader:", e.getMessage());
             return null;

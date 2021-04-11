@@ -90,14 +90,22 @@ class DownloadTask implements Runnable{
             URL imageURL = new URL(url);
             // Try to get from cache
             Bitmap bitmap = cacher.get(url);
+
+            boolean notInDisk = true;
             if (bitmap == null) { // If cache is empty -> try disk
-                bitmap = BitmapFactory.decodeStream(diskLoader.getFile(url));
-                if(bitmap != null){ // If in disk -> save to cache
-                    cacher.cacheImage(url, bitmap);
+                File input = diskLoader.getFile(url);
+                if(input != null){
+                    Log.i("CS205 - Loader:", "loading from disk " + url);
+                    bitmap = BitmapFactory.decodeFile(input.getAbsolutePath());
+                    if(bitmap != null){ // If in disk -> save to cache
+                        cacher.cacheImage(url, bitmap);
+                    }
+                    notInDisk = false;
                 }
             }
-            if (bitmap == null) { // If disk is also empty -> download
+            if (notInDisk) { // If disk is also empty -> download
                 // Download from url as bitmap
+                Log.i("CS205 - Loader:", "downloading from URL " + url);
                 InputStream inputStream = imageURL.openConnection().getInputStream();
                 bitmap = BitmapFactory.decodeStream(inputStream);
                 saver.SaveImage(url, inputStream);
